@@ -7,21 +7,33 @@ import {
   IPropertyPaneConfiguration,
   PropertyPaneTextField,
   PropertyPaneToggle,
+  PropertyPaneDropdown,
   IPropertyPaneToggleProps
 } from "@microsoft/sp-property-pane";
 
 import * as strings from "DirectoryWebPartStrings";
 import Directory from "./components/Directory";
 import { IDirectoryProps } from "./components/IDirectoryProps";
+import {
+  IDropdownOption
+} from "office-ui-fabric-react";
+
+const orderOptions: IDropdownOption[] = [
+  { key: "FirstName", text: strings.FirstName },
+  { key: "LastName", text: strings.LastName },
+  { key: "Department", text: strings.Department },
+  { key: "Location", text: strings.Location },
+  { key: "JobTitle", text: strings.JobTitle }
+];
 
 export interface IDirectoryWebPartProps {
   title: string;
   searchFirstName: boolean;
+  showSort: boolean;
+  defaultSort:string;
 }
 
-export default class DirectoryWebPart extends BaseClientSideWebPart<
-  IDirectoryWebPartProps
-> {
+export default class DirectoryWebPart extends BaseClientSideWebPart<IDirectoryWebPartProps> {
   public render(): void {
     const element: React.ReactElement<IDirectoryProps> = React.createElement(
       Directory,
@@ -29,6 +41,8 @@ export default class DirectoryWebPart extends BaseClientSideWebPart<
         title: this.properties.title,
         context: this.context,
         searchFirstName: this.properties.searchFirstName,
+        showSort: this.properties.showSort,
+        defaultSort: this.properties.defaultSort,
         displayMode: this.displayMode,
         updateProperty: (value: string) => {
           this.properties.title = value;
@@ -48,6 +62,19 @@ export default class DirectoryWebPart extends BaseClientSideWebPart<
   }
 
   protected getPropertyPaneConfiguration(): IPropertyPaneConfiguration {
+    
+    let templateChoice:any;
+
+    if (this.properties.showSort) {
+      templateChoice = "";
+    }
+    else {
+      templateChoice = PropertyPaneDropdown("defaultSort", {
+        label: strings.defaultSortLabel,
+        options: orderOptions,
+        selectedKey: "FirstName"
+    })
+    }
     return {
       pages: [
         {
@@ -63,8 +90,13 @@ export default class DirectoryWebPart extends BaseClientSideWebPart<
                 }),
                 PropertyPaneToggle("searchFirstName", {
                   checked: false,
-                  label: "Search on First Name ?"
-                })
+                  label: strings.SearchFirstNameLabel
+                }),
+                PropertyPaneToggle("showSort", {
+                  checked: false,
+                  label: strings.ShowSortLabel
+                }),
+                templateChoice
               ]
             }
           ]

@@ -102,6 +102,7 @@ export class PersonaCard extends React.Component<
         type={DocumentCardType.normal}
       >
         <div className={styles.persona}>
+
           <Persona
             text={this.props.profileProperties.DisplayName}
             secondaryText={this.props.profileProperties.Title}

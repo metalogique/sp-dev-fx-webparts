@@ -59,16 +59,16 @@ const az: string[] = [
   "Z"
 ];
 const orderOptions: IDropdownOption[] = [
-  { key: "FirstName", text: "First Name" },
-  { key: "LastName", text: "Last Name" },
-  { key: "Department", text: "Department" },
-  { key: "Location", text: "Location" },
-  { key: "JobTitle", text: "Job Title" }
+  { key: "FirstName", text: strings.FirstName },
+  { key: "LastName", text: strings.LastName },
+  { key: "Department", text: strings.Department },
+  { key: "Location", text: strings.Location },
+  { key: "JobTitle", text: strings.JobTitle }
 ];
 export default class Directory extends React.Component<
   IDirectoryProps,
   IDirectoryState
-> {
+  > {
   private _services: spservices = null;
 
   constructor(props: IDirectoryProps) {
@@ -80,7 +80,7 @@ export default class Directory extends React.Component<
       errorMessage: "",
       hasError: false,
       indexSelectedKey: "A",
-      searchString: "LastName"
+      sortBy: "LastName"
     };
 
     this._services = new spservices(this.props.context);
@@ -104,26 +104,26 @@ export default class Directory extends React.Component<
    * @param pictureUrl
    * @returns
    */
-  private getImageBase64(pictureUrl: string):Promise<string>{
+  private getImageBase64(pictureUrl: string): Promise<string> {
     return new Promise((resolve, reject) => {
-        let image = new Image();
-        image.addEventListener("load", () => {
-            let tempCanvas = document.createElement("canvas");
-            tempCanvas.width = image.width,
-                tempCanvas.height = image.height,
-                tempCanvas.getContext("2d").drawImage(image, 0, 0);
-            let base64Str;
-            try {
-                base64Str = tempCanvas.toDataURL("image/png");
-            } catch (e) {
-                return "";
-            }
+      let image = new Image();
+      image.addEventListener("load", () => {
+        let tempCanvas = document.createElement("canvas");
+        tempCanvas.width = image.width,
+          tempCanvas.height = image.height,
+          tempCanvas.getContext("2d").drawImage(image, 0, 0);
+        let base64Str;
+        try {
+          base64Str = tempCanvas.toDataURL("image/png");
+        } catch (e) {
+          return "";
+        }
 
-            resolve(base64Str);
-        });
-        image.src = pictureUrl;
+        resolve(base64Str);
+      });
+      image.src = pictureUrl;
     });
-}
+  }
 
 
   private async _searchUsers(searchText: string) {
@@ -131,7 +131,7 @@ export default class Directory extends React.Component<
     this.setState({
       isLoading: true,
       indexSelectedKey: searchText.substring(0, 1).toLocaleUpperCase(),
-      searchString: "LastName"
+      sortBy: "LastName"
     });
 
     try {
@@ -140,15 +140,15 @@ export default class Directory extends React.Component<
         this.props.searchFirstName
       );
 
-      if (users && users.PrimarySearchResults.length > 0){
+      if (users && users.PrimarySearchResults.length > 0) {
         for (let index = 0; index < users.PrimarySearchResults.length; index++) {
-          let user:any = users.PrimarySearchResults[index]  ;
-          if (user.PictureURL){
-            user = { ...user, PictureURL: await this.getImageBase64(`/_layouts/15/userphoto.aspx?size=M&accountname=${user.WorkEmail}`)};
-           users.PrimarySearchResults[index]  =  user ;
+          let user: any = users.PrimarySearchResults[index];
+          if (user.PictureURL) {
+            user = { ...user, PictureURL: await this.getImageBase64(`/_layouts/15/userphoto.aspx?size=M&accountname=${user.WorkEmail}`) };
+            users.PrimarySearchResults[index] = user;
           }
         }
-       }
+      }
 
       this.setState({
         users:
@@ -180,6 +180,7 @@ export default class Directory extends React.Component<
       this.props.searchFirstName != prevProps.searchFirstName
     ) {
       await this._searchUsers("A");
+
     }
   }
 
@@ -268,7 +269,7 @@ export default class Directory extends React.Component<
           break;
       }
     });
-    this.setState({ users: _users, searchString: sortField });
+    this.setState({ users: _users, sortBy: sortField });
   }
   /**
    *
@@ -293,23 +294,23 @@ export default class Directory extends React.Component<
     const diretoryGrid =
       this.state.users && this.state.users.length > 0
         ? this.state.users.map((user: any) => {
-            return (
-              <PersonaCard
-                context={this.props.context}
-                profileProperties={{
-                  DisplayName: user.PreferredName,
-                  Title: user.JobTitle,
-                  PictureUrl: user.PictureURL,
-                  Email: user.WorkEmail,
-                  Department: user.Department,
-                  WorkPhone: user.WorkPhone,
-                  Location: user.OfficeNumber
-                    ? user.OfficeNumber
-                    : user.BaseOfficeLocation
-                }}
-              />
-            );
-          })
+          return (
+            <PersonaCard
+              context={this.props.context}
+              profileProperties={{
+                DisplayName: user.PreferredName,
+                Title: user.JobTitle,
+                PictureUrl: user.PictureURL,
+                Email: user.WorkEmail,
+                Department: user.Department,
+                WorkPhone: user.WorkPhone,
+                Location: user.OfficeNumber
+                  ? user.OfficeNumber
+                  : user.BaseOfficeLocation
+              }}
+            />
+          );
+        })
         : [];
 
     return (
@@ -380,20 +381,21 @@ export default class Directory extends React.Component<
             {this.state.errorMessage}
           </MessageBar>
         ) : (
-          <div className={styles.dropDownSortBy}>
-            <Dropdown
-              placeholder={strings.DropDownPlaceHolderMessage}
-              label={strings.DropDownPlaceLabelMessage}
-              options={orderOptions}
-              selectedKey={this.state.searchString}
-              onChange={(ev: any, value: IDropdownOption) => {
-                this._sortPeople(value.key.toString());
-              }}
-              styles={{ dropdown: { width: 200 } }}
-            />
-            <div>{diretoryGrid}</div>
-          </div>
-        )}
+                <div className={styles.dropDownSortBy}  >
+                  {this.props.showSort == true &&
+                    <Dropdown
+                      placeholder={strings.DropDownPlaceHolderMessage}
+                      label={strings.DropDownPlaceLabelMessage}
+                      options={orderOptions}
+                      selectedKey={this.state.sortBy}
+                      onChange={(ev: any, value: IDropdownOption) => {
+                        this._sortPeople(value.key.toString());
+                      }}
+                      styles={{ dropdown: { width: 200 } }}
+                    />}
+                  <div>{diretoryGrid}</div>
+                </div>
+              )}
       </div>
     );
   }

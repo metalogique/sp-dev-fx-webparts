@@ -5,5 +5,7 @@ export interface IDirectoryProps {
   displayMode: DisplayMode;
   context: WebPartContext;
   searchFirstName: boolean;
+  showSort: boolean;
+  defaultSort: string;
   updateProperty: (value: string) => void;
 }

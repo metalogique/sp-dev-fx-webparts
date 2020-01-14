@@ -67,10 +67,6 @@ user:string   */
         SourceId: 'b09a7990-05ea-4af9-81ef-edfab16c4e31',
         SortList: [{ "Property": "LastName", "Direction": SortDirection.Ascending }],
       });
-
-
-
-
       return users;
     } catch (error) {
       Promise.reject(error);

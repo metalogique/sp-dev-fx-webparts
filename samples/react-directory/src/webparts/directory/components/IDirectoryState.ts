@@ -6,5 +6,5 @@ export interface IDirectoryState {
   errorMessage: string;
   hasError: boolean;
   indexSelectedKey: string;
-  searchString: string;
+  sortBy: string;
 }
