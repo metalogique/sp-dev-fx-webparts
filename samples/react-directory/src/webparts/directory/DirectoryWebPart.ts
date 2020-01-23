@@ -2,13 +2,11 @@ import * as React from "react";
 import * as ReactDom from "react-dom";
 import { Version } from "@microsoft/sp-core-library";
 import { BaseClientSideWebPart } from "@microsoft/sp-webpart-base";
-import { DisplayMode } from "@microsoft/sp-core-library";
 import {
   IPropertyPaneConfiguration,
   PropertyPaneTextField,
   PropertyPaneToggle,
-  PropertyPaneDropdown,
-  IPropertyPaneToggleProps
+  PropertyPaneDropdown
 } from "@microsoft/sp-property-pane";
 
 import * as strings from "DirectoryWebPartStrings";
@@ -41,8 +39,8 @@ export default class DirectoryWebPart extends BaseClientSideWebPart<IDirectoryWe
         title: this.properties.title,
         context: this.context,
         searchFirstName: this.properties.searchFirstName,
-        showSort: this.properties.showSort,
         defaultSort: this.properties.defaultSort,
+        showSort: this.properties.showSort,
         displayMode: this.displayMode,
         updateProperty: (value: string) => {
           this.properties.title = value;
@@ -62,7 +60,7 @@ export default class DirectoryWebPart extends BaseClientSideWebPart<IDirectoryWe
   }
 
   protected getPropertyPaneConfiguration(): IPropertyPaneConfiguration {
-    
+
     let templateChoice:any;
 
     if (this.properties.showSort) {
@@ -72,8 +70,8 @@ export default class DirectoryWebPart extends BaseClientSideWebPart<IDirectoryWe
       templateChoice = PropertyPaneDropdown("defaultSort", {
         label: strings.defaultSortLabel,
         options: orderOptions,
-        selectedKey: "FirstName"
-    })
+        selectedKey: "LastName"
+    });
     }
     return {
       pages: [

@@ -1,11 +1,9 @@
 import * as React from "react";
 import styles from "./Directory.module.scss";
 import { IDirectoryProps } from "./IDirectoryProps";
-import { escape } from "@microsoft/sp-lodash-subset";
 import { PersonaCard } from "./PersonaCard/PersonaCard";
 import { spservices } from "../../../SPServices/spservices";
 import { IDirectoryState } from "./IDirectoryState";
-import { DisplayMode } from "@microsoft/sp-core-library";
 import * as strings from "DirectoryWebPartStrings";
 import {
   Spinner,
@@ -20,15 +18,9 @@ import {
   PivotLinkFormat,
   PivotLinkSize,
   Dropdown,
-  DropdownMenuItemType,
-  IDropdownStyles,
   IDropdownOption
 } from "office-ui-fabric-react";
-import { IProfileProperties } from "../../../SPServices/IProfileProperties";
-import { PeoplePickerEntity, Search, SearchResult } from "@pnp/sp";
 import { WebPartTitle } from "@pnp/spfx-controls-react/lib/WebPartTitle";
-import { Root } from "@pnp/graph";
-import { IUserProperties } from "./PersonaCard/IUserProperties";
 
 const az: string[] = [
   "A",
@@ -79,10 +71,10 @@ export default class Directory extends React.Component<
       isLoading: true,
       errorMessage: "",
       hasError: false,
+      wasSort:false,
       indexSelectedKey: "A",
       sortBy: "LastName"
     };
-
     this._services = new spservices(this.props.context);
     // Register event handlers
     this._searchUsers = this._searchUsers.bind(this);
@@ -96,8 +88,9 @@ export default class Directory extends React.Component<
    * @memberof Directory
    */
   public async componentDidMount() {
-    await this._searchUsers("A");
+   await this._searchUsers("A");
   }
+
 
   /**
    * Gets image base64
@@ -131,7 +124,7 @@ export default class Directory extends React.Component<
     this.setState({
       isLoading: true,
       indexSelectedKey: searchText.substring(0, 1).toLocaleUpperCase(),
-      sortBy: "LastName"
+      sortBy: this.props.defaultSort,
     });
 
     try {
@@ -157,7 +150,8 @@ export default class Directory extends React.Component<
             : null,
         isLoading: false,
         errorMessage: "",
-        hasError: false
+        hasError: false,
+        wasSort:true,
       });
     } catch (error) {
       this.setState({ errorMessage: error.message, hasError: true });
@@ -180,8 +174,15 @@ export default class Directory extends React.Component<
       this.props.searchFirstName != prevProps.searchFirstName
     ) {
       await this._searchUsers("A");
-
     }
+
+    if (this.state.wasSort !== prevState.wasSort && !this.state.isLoading && !this.state.hasError) {
+      await this._sortPeople(this.state.sortBy);
+      this.setState({ wasSort: false });
+    }
+
+    //await this._sortPeople(this.props.defaultSort);
+
   }
 
   /**
@@ -193,6 +194,8 @@ export default class Directory extends React.Component<
    */
   private async _sortPeople(sortField: string) {
     let _users = this.state.users;
+
+    console.log("sortFieldIn :", sortField);
     _users = _users.sort((a: any, b: any) => {
       switch (sortField) {
         // Sorte by FirstName
@@ -264,7 +267,6 @@ export default class Directory extends React.Component<
             return 1;
           }
           return 0;
-          break;
         default:
           break;
       }
@@ -281,6 +283,7 @@ export default class Directory extends React.Component<
    */
   private _selectedIndex(item?: PivotItem, ev?: React.MouseEvent<HTMLElement>) {
     this._searchUsers(item.props.itemKey);
+
   }
   /**
    *
@@ -337,7 +340,7 @@ export default class Directory extends React.Component<
             onClear={() => {
               this._searchUsers("A");
             }}
-            onChange={this._searchUsers}
+            onChanged={this._searchUsers}
           />
           <div>
             <Pivot
@@ -387,7 +390,7 @@ export default class Directory extends React.Component<
                       placeholder={strings.DropDownPlaceHolderMessage}
                       label={strings.DropDownPlaceLabelMessage}
                       options={orderOptions}
-                      selectedKey={this.state.sortBy}
+                      //selectedKey={this.state.sortBy}
                       onChange={(ev: any, value: IDropdownOption) => {
                         this._sortPeople(value.key.toString());
                       }}

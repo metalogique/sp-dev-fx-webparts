@@ -1,9 +1,5 @@
 import { WebPartContext } from "@microsoft/sp-webpart-base";
-import { graph } from "@pnp/graph";
-import { sp, PeoplePickerEntity, ClientPeoplePickerQueryParameters, SearchQuery, SearchResults, SearchProperty, SortDirection } from '@pnp/sp';
-import { PrincipalType } from "@pnp/sp/src/sitegroups";
-import { isRelativeUrl } from "office-ui-fabric-react";
-
+import { sp, PeoplePickerEntity, SearchQuery, SortDirection } from '@pnp/sp';
 
 export class spservices {
 
@@ -55,8 +51,10 @@ user:string   */
   }
 
   public async searchUsers(searchString: string, searchFirstName:boolean) {
+    const _searchSort = !searchFirstName ? "LastName" : "FirstName" ;
     const _search =  !searchFirstName ? `LastName:${searchString}*` :  `FirstName:${searchString}*` ;
     const searchProperties: string[] = ["FirstName", "LastName", "PreferredName", "WorkEmail", "OfficeNumber","PictureURL", "WorkPhone", "MobilePhone", "JobTitle", "Department", "Skills", "PastProjects", "BaseOfficeLocation", "SPS-UserType","GroupId"];
+
     try {
       if (!searchString) return undefined;
       let users = await sp.searchWithCaching(<SearchQuery>{
@@ -65,7 +63,8 @@ user:string   */
         EnableInterleaving: true,
         SelectProperties: searchProperties,
         SourceId: 'b09a7990-05ea-4af9-81ef-edfab16c4e31',
-        SortList: [{ "Property": "LastName", "Direction": SortDirection.Ascending }],
+        //SortList: [{ "Property": tata, "Direction": SortDirection.Ascending }],
+        SortList: [{ "Property": _searchSort, "Direction": SortDirection.Ascending }],
       });
       return users;
     } catch (error) {
