@@ -124,7 +124,7 @@ export default class Directory extends React.Component<
     this.setState({
       isLoading: true,
       indexSelectedKey: searchText.substring(0, 1).toLocaleUpperCase(),
-      sortBy: this.props.defaultSort,
+      sortBy: this.props.defaultSort ? this.props.defaultSort :this.state.sortBy,
     });
 
     try {
@@ -391,7 +391,7 @@ export default class Directory extends React.Component<
                       placeholder={strings.DropDownPlaceHolderMessage}
                       label={strings.DropDownPlaceLabelMessage}
                       options={orderOptions}
-                      selectedKey={this.props.defaultSort}
+                      defaultSelectedKey={this.state.sortBy}
                       onChange={(ev: any, value: IDropdownOption) => {
                         this._sortPeople(value.key.toString());
                       }}
