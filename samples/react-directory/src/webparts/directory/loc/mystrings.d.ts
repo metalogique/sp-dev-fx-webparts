@@ -10,11 +10,12 @@ declare interface IDirectoryWebPartStrings {
   DirectoryMessage: string;
   DescriptionFieldLabel: string;
   FirstName: string;
-  LastName: string; 
+  LastName: string;
   Department: string;
-  Location: string; 
-  JobTitle: string; 
+  Location: string;
+  JobTitle: string;
   defaultSortLabel: string;
+  lblSearch: string;
 }
 
 declare module 'DirectoryWebPartStrings' {

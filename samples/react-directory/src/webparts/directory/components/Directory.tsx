@@ -341,6 +341,7 @@ export default class Directory extends React.Component<
               this._searchUsers("A");
             }}
             onChanged={this._searchUsers}
+            ariaLabel={strings.SearchPlaceHolder}
           />
           <div>
             <Pivot
@@ -390,7 +391,7 @@ export default class Directory extends React.Component<
                       placeholder={strings.DropDownPlaceHolderMessage}
                       label={strings.DropDownPlaceLabelMessage}
                       options={orderOptions}
-                      //selectedKey={this.state.sortBy}
+                      selectedKey={this.props.defaultSort}
                       onChange={(ev: any, value: IDropdownOption) => {
                         this._sortPeople(value.key.toString());
                       }}

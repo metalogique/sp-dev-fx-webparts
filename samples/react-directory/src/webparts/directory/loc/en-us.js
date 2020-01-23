@@ -10,10 +10,11 @@ define([], function() {
     ShowSortLabel: "Show Sort Dropdown",
     DirectoryMessage: "No users found in directory",
     FirstName:  "First Name",
-    LastName:   "Last Name", 
+    LastName:   "Last Name",
     Department: "Department",
-    Location:   "Location", 
+    Location:   "Location",
     JobTitle:   "Job Title",
-    defaultSortLabel: "Default Sort Field"
+    defaultSortLabel: "Default Sort Field",
+    lblSearch: "Search"
   }
 });
