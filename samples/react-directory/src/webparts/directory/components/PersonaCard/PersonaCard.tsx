@@ -101,6 +101,7 @@ export class PersonaCard extends React.Component<
             size={PersonaSize.size72}
             imageShouldFadeIn={false}
             imageShouldStartVisible={true}
+            className={styles.personaRoot}
           >
             {this.props.profileProperties.WorkPhone ? (
               <div>

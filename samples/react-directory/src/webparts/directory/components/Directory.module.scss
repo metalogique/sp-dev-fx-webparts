@@ -5,6 +5,13 @@
     margin-top: 35px;
     margin-bottom: 15px;
   }
+  .dropDownSortBy>div {
+    display: grid;
+    grid-template-columns: repeat(auto-fill,minmax(46%,1fr));
+    grid-gap: 2rem;
+    justify-items: stretch;
+
+  }
 
   .searchBox {
     width: "100%";
