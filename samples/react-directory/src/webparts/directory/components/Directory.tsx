@@ -326,7 +326,7 @@ export default class Directory extends React.Component<
 
         <div className={styles.searchBox}>
           <SearchBox
-            placeholder={strings.SearchPlaceHolder}
+            placeholder={`${this.props.searchFirstName ? strings.SearchPlaceHolder : strings.SearchPlaceHolderLastName}`}
             styles={{
               root: {
                 minWidth: 180,

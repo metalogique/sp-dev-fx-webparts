@@ -2,7 +2,8 @@ define([], function() {
   return {
     DropDownPlaceLabelMessage: "Trier le bottin par ",
     DropDownPlaceHolderMessage: "Trier par ",
-    SearchPlaceHolder: "Rechercher une personne",
+    SearchPlaceHolder: "Rechercher par prénom",
+    SearchPlaceHolderLastName: "Rechercher par nom",
     PropertyPaneDescription: "Rechercher une personne dans le bottin de l'entreprise",
     BasicGroupName: "Propriétés",
     TitleFieldLabel: "Titre de la WebPart",

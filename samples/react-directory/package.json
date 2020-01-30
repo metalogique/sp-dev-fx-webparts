@@ -28,7 +28,7 @@
     "@types/react-dom": "16.8.0",
     "@types/webpack-env": "1.13.1",
     "@uifabric/fluent-theme": "^0.16.21",
-    "office-ui-fabric-react": "^7.82.2",
+    "office-ui-fabric-react": "^7.87.0",
     "react": "16.7.0",
     "react-dom": "16.7.0",
     "tslib": "^1.10.0"

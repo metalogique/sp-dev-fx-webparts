@@ -2,6 +2,7 @@ declare interface IDirectoryWebPartStrings {
   DropDownPlaceLabelMessage: string;
   DropDownPlaceHolderMessage: string;
   SearchPlaceHolder: string;
+  SearchPlaceHolderLastName: string;
   PropertyPaneDescription: string;
   BasicGroupName: string;
   TitleFieldLabel: string;

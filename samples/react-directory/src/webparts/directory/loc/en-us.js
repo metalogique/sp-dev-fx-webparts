@@ -2,7 +2,8 @@ define([], function() {
   return {
     DropDownPlaceLabelMessage: "Sort People by ",
     DropDownPlaceHolderMessage: "Sort by",
-    SearchPlaceHolder: "Search for People",
+    SearchPlaceHolder: "Search for People By First Name",
+    SearchPlaceHolderLastName: "Search for People By Last Name",
     PropertyPaneDescription: "Search People from Organization Directory",
     BasicGroupName: "Properties",
     TitleFieldLabel: "Web Part Title",
