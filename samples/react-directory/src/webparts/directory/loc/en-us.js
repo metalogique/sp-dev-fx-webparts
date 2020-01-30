@@ -18,8 +18,8 @@ define([], function() {
     defaultSortLabel: "Default Sort Field",
     lblSearch: "Search",
     defaultTypeLabel: "Layout",
-    opt2col:  "Two columns",
-    opt3col:  "three columns",
+    opt2col:  "Two Columns",
+    opt3col:  "Three Columns",
     searchL: "searching ..."
   }
 });
