@@ -16,6 +16,10 @@ declare interface IDirectoryWebPartStrings {
   JobTitle: string;
   defaultSortLabel: string;
   lblSearch: string;
+  defaultTypeLabel: string;
+  opt2col: string;
+  opt3col: string;
+  searching: string;
 }
 
 declare module 'DirectoryWebPartStrings' {

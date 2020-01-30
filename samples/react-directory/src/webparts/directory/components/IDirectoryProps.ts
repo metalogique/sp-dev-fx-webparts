@@ -7,5 +7,6 @@ export interface IDirectoryProps {
   searchFirstName: boolean;
   showSort: boolean;
   defaultSort: string;
+  defaultPres: string;
   updateProperty: (value: string) => void;
 }

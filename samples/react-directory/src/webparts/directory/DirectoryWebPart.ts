@@ -24,11 +24,17 @@ const orderOptions: IDropdownOption[] = [
   { key: "JobTitle", text: strings.JobTitle }
 ];
 
+const typeOptions: IDropdownOption[] = [
+  { key: "colonnes2", text: strings.opt2col },
+  { key: "colonnes3", text: strings.opt3col },
+];
+
 export interface IDirectoryWebPartProps {
   title: string;
   searchFirstName: boolean;
   showSort: boolean;
   defaultSort:string;
+  defaultPres: string;
 }
 
 export default class DirectoryWebPart extends BaseClientSideWebPart<IDirectoryWebPartProps> {
@@ -41,6 +47,7 @@ export default class DirectoryWebPart extends BaseClientSideWebPart<IDirectoryWe
         searchFirstName: this.properties.searchFirstName,
         defaultSort: this.properties.defaultSort,
         showSort: this.properties.showSort,
+        defaultPres: this.properties.defaultPres,
         displayMode: this.displayMode,
         updateProperty: (value: string) => {
           this.properties.title = value;
@@ -61,13 +68,20 @@ export default class DirectoryWebPart extends BaseClientSideWebPart<IDirectoryWe
 
   protected getPropertyPaneConfiguration(): IPropertyPaneConfiguration {
 
-    let templateChoice:any;
+    let templateSort:any;
+    let templateType:any;
+
+    templateType = PropertyPaneDropdown("defaultPres", {
+      label: strings.defaultTypeLabel,
+      options: typeOptions,
+      selectedKey: 2
+    });
 
     if (this.properties.showSort) {
-      templateChoice = "";
+      templateSort = "";
     }
     else {
-      templateChoice = PropertyPaneDropdown("defaultSort", {
+      templateSort = PropertyPaneDropdown("defaultSort", {
         label: strings.defaultSortLabel,
         options: orderOptions,
         selectedKey: "LastName"
@@ -94,7 +108,8 @@ export default class DirectoryWebPart extends BaseClientSideWebPart<IDirectoryWe
                   checked: false,
                   label: strings.ShowSortLabel
                 }),
-                templateChoice
+                templateSort,
+                templateType
               ]
             }
           ]

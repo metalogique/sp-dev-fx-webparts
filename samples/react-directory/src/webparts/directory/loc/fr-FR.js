@@ -15,6 +15,10 @@ define([], function() {
     Location:   "Emplacement",
     JobTitle:   "Titre",
     defaultSortLabel: "Tri par défault",
-    lblSearch: "Rechercher"
+    lblSearch: "Rechercher",
+    defaultTypeLabel: "Présentation",
+    opt2col:  "deux colonnes",
+    opt3col:  "trois colonnes",
+    searchL: "recherche ..."
   }
 });

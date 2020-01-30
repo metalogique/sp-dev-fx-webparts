@@ -12,7 +12,10 @@
     justify-items: stretch;
 
   }
-
+  .dropDownSortBy.threeCol>div {
+    grid-template-columns: repeat(auto-fill,minmax(30%,1fr));
+    grid-gap: 1rem;
+  }
   .searchBox {
     width: "100%";
     vertical-align: "middle";

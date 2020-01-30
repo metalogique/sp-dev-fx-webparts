@@ -293,6 +293,7 @@ export default class Directory extends React.Component<
    */
   public render(): React.ReactElement<IDirectoryProps> {
     const color = this.props.context.microsoftTeams ? "white" : "";
+    console.log(this.props.defaultPres);
 
     const diretoryGrid =
       this.state.users && this.state.users.length > 0
@@ -379,13 +380,14 @@ export default class Directory extends React.Component<
             </Label>
           </div>
         ) : this.state.isLoading ? (
-          <Spinner size={SpinnerSize.large} label={"searching ..."} />
+          <Spinner size={SpinnerSize.large} label={strings.searching} />
         ) : this.state.hasError ? (
           <MessageBar messageBarType={MessageBarType.error}>
             {this.state.errorMessage}
           </MessageBar>
         ) : (
-                <div className={styles.dropDownSortBy}  >
+                <div className={`${styles.dropDownSortBy} ${this.props.defaultPres == "colonnes2" ? "" : styles.threeCol}`}  >
+
                   {this.props.showSort == true &&
                     <Dropdown
                       placeholder={strings.DropDownPlaceHolderMessage}
