@@ -74,7 +74,7 @@ export default class DirectoryWebPart extends BaseClientSideWebPart<IDirectoryWe
     templateType = PropertyPaneDropdown("defaultPres", {
       label: strings.defaultTypeLabel,
       options: typeOptions,
-      selectedKey: 2
+      selectedKey: "colonnes2"
     });
 
     if (this.properties.showSort) {

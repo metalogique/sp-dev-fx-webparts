@@ -293,7 +293,6 @@ export default class Directory extends React.Component<
    */
   public render(): React.ReactElement<IDirectoryProps> {
     const color = this.props.context.microsoftTeams ? "white" : "";
-    console.log(this.props.defaultPres);
 
     const diretoryGrid =
       this.state.users && this.state.users.length > 0
